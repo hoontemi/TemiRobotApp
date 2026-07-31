@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 메인 화면: 노인복지 (회색) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:angle="315"
+        android:startColor="#A7BBB5"
+        android:endColor="#7D8B87" />
+</shape>

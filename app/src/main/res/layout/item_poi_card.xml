@@ -8,14 +8,16 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/poi_card_bg"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="@dimen/poi_card_corner"
     app:cardElevation="@dimen/poi_card_elevation"
     app:strokeWidth="@dimen/poi_card_stroke">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/poiCardInner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/poi_grad_1"
         android:paddingHorizontal="@dimen/poi_card_padding_h"
         android:paddingVertical="@dimen/poi_card_padding_v">
 
@@ -27,7 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/poi_icon_tint"
+            app:tint="@color/poi_icon_on_tint"
             tools:src="@drawable/ic_poi_place" />
 
         <LinearLayout
@@ -47,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@color/poi_title_color"
+                android:textColor="@color/poi_title_on_color"
                 android:textSize="@dimen/poi_title_size"
                 android:textStyle="bold"
                 tools:text="안내데스크" />
@@ -59,7 +61,7 @@
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#8A404049"
+                android:textColor="#E6FFFFFF"
                 android:textSize="@dimen/poi_subtitle_size"
                 android:visibility="gone"
                 tools:text="Information"
@@ -76,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/poi_arrow_tint" />
+            app:tint="@color/poi_arrow_on_tint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,13 +1,12 @@
 package com.ibtech.temirobotapp
 
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +53,7 @@ class PoiAdapter(
 
     class PoiViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val card: MaterialCardView = itemView.findViewById(R.id.poiCard)
+        private val cardInner: ConstraintLayout = itemView.findViewById(R.id.poiCardInner)
         private val icon: ImageView = itemView.findViewById(R.id.poiIcon)
         private val title: TextView = itemView.findViewById(R.id.poiTitle)
         private val subtitle: TextView = itemView.findViewById(R.id.poiSubtitle)
@@ -73,20 +73,18 @@ class PoiAdapter(
 
             icon.setImageResource(getPoiIcon(name))
 
-            // Figma '위치' 화면 버튼(Component 22) 디자인:
-            //   흰 배경 카드 + 진회색 텍스트 + 브랜드 블루 아이콘 + 파란 글로우.
-            //   색상은 표시(UI) 전용이며 index/name 순환 컬러는 더 이상 사용하지 않는다.
+            // 카드 배경: 메인 화면 버튼의 그라디언트 팔레트(9색)를 인덱스로 순환.
+            //   콘텐츠(텍스트·아이콘·화살표)는 메인 화면과 동일하게 흰색.
+            //   색상은 표시(UI) 전용이며 이동 식별자(name)에는 영향을 주지 않는다.
             if (enabled) {
-                card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.poi_card_bg))
-                title.setTextColor(ContextCompat.getColor(context, R.color.poi_title_color))
-                icon.setIconTint(context, R.color.poi_icon_tint)
-                card.setGlow(ContextCompat.getColor(context, R.color.poi_card_glow))
+                cardInner.setBackgroundResource(getPoiGradient(position))
+                title.setTextColor(ContextCompat.getColor(context, R.color.poi_title_on_color))
+                icon.setIconTint(context, R.color.poi_icon_on_tint)
             } else {
-                // 비활성(이동 중) 상태: 밝은 회색 배경 + 뮤트 처리
-                card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.poi_card_bg_disabled))
-                title.setTextColor(ContextCompat.getColor(context, R.color.poi_title_color_disabled))
-                icon.setIconTint(context, R.color.poi_icon_tint_disabled)
-                card.setGlow(Color.BLACK) // 기본(중립) 그림자
+                // 비활성(이동 중) 상태: 밝은 회색 단색 배경 + 뮤트 처리
+                cardInner.setBackgroundResource(R.drawable.poi_grad_disabled)
+                title.setTextColor(ContextCompat.getColor(context, R.color.poi_title_on_color_disabled))
+                icon.setIconTint(context, R.color.poi_icon_on_tint_disabled)
             }
 
             card.isEnabled = enabled
@@ -106,17 +104,20 @@ class PoiAdapter(
                 ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
             )
         }
-
-        /** 파란 글로우 그림자. spot/ambient shadow 색상은 API 28+ 에서만 지원된다. */
-        private fun MaterialCardView.setGlow(color: Int) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                outlineSpotShadowColor = color
-                outlineAmbientShadowColor = color
-            }
-        }
     }
 
     companion object {
+        /** 메인 화면 버튼 그라디언트 팔레트 (9색 순환). UI 전용. */
+        private val CARD_GRADIENTS = intArrayOf(
+            R.drawable.poi_grad_1, R.drawable.poi_grad_2, R.drawable.poi_grad_3,
+            R.drawable.poi_grad_4, R.drawable.poi_grad_5, R.drawable.poi_grad_6,
+            R.drawable.poi_grad_7, R.drawable.poi_grad_8, R.drawable.poi_grad_9
+        )
+
+        /** POI 인덱스 → 카드 배경 그라디언트 (9색 순환). UI 전용. */
+        fun getPoiGradient(index: Int): Int =
+            CARD_GRADIENTS[Math.floorMod(index, CARD_GRADIENTS.size)]
+
         /**
          * POI 이름 → 아이콘 리소스. UI 전용이며 이동 데이터(name)를 변경하지 않는다.
          * 매핑되지 않으면 항상 기본 place 아이콘을 반환한다.

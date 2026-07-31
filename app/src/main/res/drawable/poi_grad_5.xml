@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 메인 화면: 안내기능 (주황빨강) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:angle="315"
+        android:startColor="#FFA481"
+        android:endColor="#FF7B7B" />
+</shape>

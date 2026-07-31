@@ -6,14 +6,11 @@
     <!-- POI 선택 화면 배경 (Figma: 밝은 회색) -->
     <color name="poi_screen_bg">#F5F5F5</color>
 
-    <!-- POI 카드 ('위치' 화면 버튼 디자인 / Figma Component 22) -->
-    <color name="poi_card_bg">#FFFFFF</color>          <!-- 카드 배경: 흰색 -->
-    <color name="poi_card_bg_disabled">#ECEFF1</color> <!-- 이동 중 비활성 배경 -->
-    <color name="poi_title_color">#404049</color>       <!-- 텍스트: 진회색 -->
-    <color name="poi_title_color_disabled">#9AA0A6</color>
-    <color name="poi_icon_tint">#468BDE</color>         <!-- 아이콘: 브랜드 블루 -->
-    <color name="poi_icon_tint_disabled">#B0B7BE</color>
-    <color name="poi_arrow_tint">#B8C0CC</color>        <!-- 우측 화살표: 연회색 -->
-    <color name="poi_card_glow">#74A6F8</color>         <!-- 파란 글로우 (API 28+ spot shadow) -->
+    <!-- POI 카드: 메인 화면 그라디언트 팔레트 위에 흰색 콘텐츠 -->
+    <color name="poi_title_on_color">#FFFFFF</color>       <!-- 텍스트: 흰색 -->
+    <color name="poi_title_on_color_disabled">#F0FFFFFF</color>
+    <color name="poi_icon_on_tint">#FFFFFF</color>         <!-- 아이콘: 흰색 -->
+    <color name="poi_icon_on_tint_disabled">#E6FFFFFF</color>
+    <color name="poi_arrow_on_tint">#CCFFFFFF</color>      <!-- 우측 화살표: 반투명 흰색 -->
 
 </resources>
