@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 메인 화면: 원격수업 (청록→파랑) -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient
-        android:angle="315"
-        android:startColor="#61DDDD"
-        android:endColor="#50A2DD" />
-</shape>
