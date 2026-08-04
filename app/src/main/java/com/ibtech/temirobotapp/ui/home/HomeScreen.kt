@@ -38,7 +38,11 @@ import androidx.compose.material3.Text
 @Composable
 fun HomeScreen(
     libraryViewModel: LibraryViewModel,
-    onAdminClick: () -> Unit
+    onAdminClick: () -> Unit,
+    onFacilityClick: () -> Unit,
+    onUsageClick: () -> Unit,
+    onChildrenClick: () -> Unit,
+    onEventClick: () -> Unit
 ) {
     val libraryName by libraryViewModel.libraryName.collectAsState()
 
@@ -84,14 +88,14 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                HomeMenuButton(emoji = "🔍", label = "시설을 찾고 있어요")
-                HomeMenuButton(emoji = "📖", label = "이용방법이 궁금해요")
-                HomeMenuButton(emoji = "🤖", label = "로봇과 놀아요")
+                HomeMenuButton(emoji = "🔍", label = "시설을 찾고 있어요", onClick = onFacilityClick)
+                HomeMenuButton(emoji = "📖", label = "이용방법이 궁금해요", onClick = onUsageClick)
+                HomeMenuButton(emoji = "🤖", label = "로봇과 놀아요", onClick = onChildrenClick)
             }
 
             // 3. 하단: 작은 오늘의 행사 버튼 + 관리자 버튼
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                HomeSmallButton(emoji = "📅", label = "오늘의 행사")
+                HomeSmallButton(emoji = "📅", label = "오늘의 행사", onClick = onEventClick)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -104,9 +108,9 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HomeMenuButton(emoji: String, label: String) {
+private fun HomeMenuButton(emoji: String, label: String, onClick: () -> Unit) {
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(90.dp),
@@ -124,8 +128,8 @@ private fun HomeMenuButton(emoji: String, label: String) {
 }
 
 @Composable
-private fun HomeSmallButton(emoji: String, label: String) {
-    OutlinedButton(onClick = {}) {
+private fun HomeSmallButton(emoji: String, label: String, onClick: () -> Unit) {
+    OutlinedButton(onClick = onClick) {
         Text(text = "$emoji $label", style = MaterialTheme.typography.labelLarge)
     }
 }

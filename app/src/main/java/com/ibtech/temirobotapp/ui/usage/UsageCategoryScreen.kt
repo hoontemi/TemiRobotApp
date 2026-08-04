@@ -1,4 +1,4 @@
-package com.ibtech.temirobotapp.ui.facility
+package com.ibtech.temirobotapp.ui.usage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,18 +25,18 @@ import androidx.compose.ui.unit.dp
 import com.ibtech.temirobotapp.ui.components.CommonTopBar
 
 /**
- * 시설 목록 화면. 관리자가 등록한 시설 목록을 표시한다.
- * 현재는 FakeFacility 샘플 데이터를 사용하며, 실제 POI/Repository 연동은 이후 단계에서 진행한다.
+ * 이용방법 카테고리 화면. 관리자가 등록한 이용방법 카테고리 목록을 표시한다.
+ * 현재는 FakeUsageCategory 샘플 데이터를 사용한다.
  */
 @Composable
-fun FacilityListScreen(
-    onFacilityClick: (String) -> Unit,
+fun UsageCategoryScreen(
+    onCategoryClick: (String) -> Unit,
     onBackClick: () -> Unit,
     onHomeClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            CommonTopBar(title = "시설 안내", onBackClick = onBackClick, onHomeClick = onHomeClick)
+            CommonTopBar(title = "이용방법 안내", onBackClick = onBackClick, onHomeClick = onHomeClick)
         }
     ) { innerPadding ->
         Surface(
@@ -51,7 +51,7 @@ fun FacilityListScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "어디를 안내해 드릴까요?",
+                        text = "무엇이 궁금하신가요?",
                         style = MaterialTheme.typography.headlineLarge,
                         modifier = Modifier.padding(top = 32.dp, bottom = 24.dp)
                     )
@@ -63,8 +63,11 @@ fun FacilityListScreen(
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        items(fakeFacilities) { facility ->
-                            FacilityCard(facility = facility, onClick = { onFacilityClick(facility.id) })
+                        items(fakeUsageCategories) { category ->
+                            UsageCategoryCard(
+                                category = category,
+                                onClick = { onCategoryClick(category.id) }
+                            )
                         }
                     }
                 }
@@ -74,7 +77,7 @@ fun FacilityListScreen(
 }
 
 @Composable
-private fun FacilityCard(facility: FakeFacility, onClick: () -> Unit) {
+private fun UsageCategoryCard(category: FakeUsageCategory, onClick: () -> Unit) {
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(24.dp),
@@ -83,18 +86,14 @@ private fun FacilityCard(facility: FakeFacility, onClick: () -> Unit) {
             .fillMaxWidth()
             .height(96.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(text = facility.name, style = MaterialTheme.typography.titleLarge)
-            Text(text = facility.floor, style = MaterialTheme.typography.bodyLarge)
+        Box(modifier = Modifier.padding(20.dp), contentAlignment = Alignment.CenterStart) {
+            Text(text = category.title, style = MaterialTheme.typography.titleLarge)
         }
     }
 }
 
 @Preview(showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
-private fun FacilityListScreenPreview() {
-    FacilityListScreen(onFacilityClick = {}, onBackClick = {}, onHomeClick = {})
+private fun UsageCategoryScreenPreview() {
+    UsageCategoryScreen(onCategoryClick = {}, onBackClick = {}, onHomeClick = {})
 }

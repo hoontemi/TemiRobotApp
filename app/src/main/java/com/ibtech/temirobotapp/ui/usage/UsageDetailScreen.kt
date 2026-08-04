@@ -1,4 +1,4 @@
-package com.ibtech.temirobotapp.ui.facility
+package com.ibtech.temirobotapp.ui.usage
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,16 +28,16 @@ import kotlinx.coroutines.launch
 private const val NOT_IMPLEMENTED_MESSAGE = "다음 단계에서 구현 예정"
 
 /**
- * 시설 상세 화면. 동행 안내 / 위치만 보기 / 안내 듣기 버튼은
- * 이번 단계에서 실제 이동·POI·TTS를 연결하지 않고 스낵바로만 안내한다.
+ * 이용방법 상세 화면. 안내 듣기 / 관련 시설 안내 / 직원 도움 안내 버튼은
+ * 이번 단계에서 실제 TTS·시설 연결을 하지 않고 스낵바로만 안내한다.
  */
 @Composable
-fun FacilityDetailScreen(
-    facilityId: String,
+fun UsageDetailScreen(
+    categoryId: String,
     onBackClick: () -> Unit,
     onHomeClick: () -> Unit
 ) {
-    val facility = fakeFacilities.find { it.id == facilityId }
+    val category = fakeUsageCategories.find { it.id == categoryId }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
@@ -48,7 +48,7 @@ fun FacilityDetailScreen(
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = facility?.name ?: "시설 상세",
+                title = category?.title ?: "이용방법 상세",
                 onBackClick = onBackClick,
                 onHomeClick = onHomeClick
             )
@@ -67,18 +67,14 @@ fun FacilityDetailScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = facility?.name ?: "알 수 없는 시설",
+                        text = category?.title ?: "알 수 없는 항목",
                         style = MaterialTheme.typography.headlineLarge
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(text = facility?.floor ?: "-", style = MaterialTheme.typography.bodyLarge)
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = facility?.description ?: "시설 설명이 없습니다.",
+                        text = category?.guide ?: "안내 문구가 없습니다.",
                         style = MaterialTheme.typography.bodyLarge
                     )
 
@@ -88,25 +84,25 @@ fun FacilityDetailScreen(
                         onClick = { notifyNotImplemented() },
                         modifier = Modifier.fillMaxWidth().height(64.dp)
                     ) {
-                        Text(text = "동행 안내", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { notifyNotImplemented() },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
-                        Text(text = "위치만 보기", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { notifyNotImplemented() },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
                         Text(text = "안내 듣기", style = MaterialTheme.typography.titleLarge)
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedButton(
+                        onClick = { notifyNotImplemented() },
+                        modifier = Modifier.fillMaxWidth().height(64.dp)
+                    ) {
+                        Text(text = "관련 시설 안내", style = MaterialTheme.typography.titleLarge)
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedButton(
+                        onClick = { notifyNotImplemented() },
+                        modifier = Modifier.fillMaxWidth().height(64.dp)
+                    ) {
+                        Text(text = "직원 도움 안내", style = MaterialTheme.typography.titleLarge)
                     }
                 }
             }

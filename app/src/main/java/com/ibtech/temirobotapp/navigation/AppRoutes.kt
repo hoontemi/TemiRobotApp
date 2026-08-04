@@ -8,6 +8,21 @@ package com.ibtech.temirobotapp.navigation
 object AppRoutes {
     const val HOME = "main"
     const val ADMIN = "admin"
+
+    const val ARG_FACILITY_ID = "facilityId"
     const val FACILITY_LIST = "facility/list"
-    const val FACILITY_DETAIL = "facility/detail"
+    const val FACILITY_DETAIL = "facility/detail/{$ARG_FACILITY_ID}"
+    fun facilityDetail(facilityId: String) = "facility/detail/$facilityId"
+
+    const val ARG_CATEGORY_ID = "categoryId"
+    const val USAGE_CATEGORY = "usage/category"
+    const val USAGE_DETAIL = "usage/detail/{$ARG_CATEGORY_ID}"
+    fun usageDetail(categoryId: String) = "usage/detail/$categoryId"
+
+    const val CHILDREN_MENU = "children/menu"
+
+    const val ARG_EVENT_ID = "eventId"
+    const val EVENT_LIST = "event/list"
+    const val EVENT_DETAIL = "event/detail/{$ARG_EVENT_ID}"
+    fun eventDetail(eventId: String) = "event/detail/$eventId"
 }
