@@ -33,23 +33,23 @@ fun CommonTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 56.dp)
-                .height(64.dp)
-                .padding(horizontal = 12.dp),
+                .height(128.dp)
+                .padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = onBackClick) {
-                Text(text = "← 뒤로", style = MaterialTheme.typography.labelLarge)
+                Text(text = "← 뒤로", style = MaterialTheme.typography.titleLarge)
             }
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.weight(1f)
             )
 
             TextButton(onClick = onHomeClick) {
-                Text(text = "🏠 홈", style = MaterialTheme.typography.labelLarge)
+                Text(text = "🏠 홈", style = MaterialTheme.typography.titleLarge)
             }
         }
     }

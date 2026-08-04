@@ -14,6 +14,12 @@ object AppRoutes {
     const val FACILITY_DETAIL = "facility/detail/{$ARG_FACILITY_ID}"
     fun facilityDetail(facilityId: String) = "facility/detail/$facilityId"
 
+    const val NAVIGATION_PREPARE = "facility/navigationPrepare/{$ARG_FACILITY_ID}"
+    fun navigationPrepare(facilityId: String) = "facility/navigationPrepare/$facilityId"
+
+    const val LOCATION_GUIDE = "facility/locationGuide/{$ARG_FACILITY_ID}"
+    fun locationGuide(facilityId: String) = "facility/locationGuide/$facilityId"
+
     const val ARG_CATEGORY_ID = "categoryId"
     const val USAGE_CATEGORY = "usage/category"
     const val USAGE_DETAIL = "usage/detail/{$ARG_CATEGORY_ID}"

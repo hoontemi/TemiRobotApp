@@ -1,16 +1,26 @@
 package com.ibtech.temirobotapp.ui.usage
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -28,8 +38,9 @@ import kotlinx.coroutines.launch
 private const val NOT_IMPLEMENTED_MESSAGE = "다음 단계에서 구현 예정"
 
 /**
- * 이용방법 상세 화면. 안내 듣기 / 관련 시설 안내 / 직원 도움 안내 버튼은
- * 이번 단계에서 실제 TTS·시설 연결을 하지 않고 스낵바로만 안내한다.
+ * 이용방법 상세(하위메뉴) 화면. 카테고리 헤더(아이콘+제목) 아래에
+ * 하위 항목을 카드 형태로 보여준다. 각 하위 항목은 아직 세부 화면이 없어
+ * 선택 시 스낵바로만 안내한다.
  */
 @Composable
 fun UsageDetailScreen(
@@ -40,10 +51,6 @@ fun UsageDetailScreen(
     val category = fakeUsageCategories.find { it.id == categoryId }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-
-    fun notifyNotImplemented() {
-        coroutineScope.launch { snackbarHostState.showSnackbar(NOT_IMPLEMENTED_MESSAGE) }
-    }
 
     Scaffold(
         topBar = {
@@ -61,51 +68,81 @@ fun UsageDetailScreen(
                 .padding(innerPadding),
             color = MaterialTheme.colorScheme.background
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
                 Column(
-                    modifier = Modifier.widthIn(max = 480.dp),
+                    modifier = Modifier
+                        .widthIn(max = 640.dp)
+                        .padding(top = 32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = category?.title ?: "알 수 없는 항목",
-                        style = MaterialTheme.typography.headlineLarge
-                    )
+                    // 헤더: 아이콘 배지 + 카테고리 제목
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(56.dp)
+                                .background(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                                    CircleShape
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = category?.icon ?: "📄", style = MaterialTheme.typography.titleLarge)
+                        }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.width(16.dp))
 
-                    Text(
-                        text = category?.guide ?: "안내 문구가 없습니다.",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+                        Text(
+                            text = category?.title ?: "알 수 없는 항목",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    Button(
-                        onClick = { notifyNotImplemented() },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(text = "안내 듣기", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { notifyNotImplemented() },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
-                        Text(text = "관련 시설 안내", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { notifyNotImplemented() },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
-                        Text(text = "직원 도움 안내", style = MaterialTheme.typography.titleLarge)
+                        items(category?.subItems.orEmpty()) { subItem ->
+                            UsageSubItemCard(
+                                subItem = subItem,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        snackbarHostState.showSnackbar(NOT_IMPLEMENTED_MESSAGE)
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun UsageSubItemCard(subItem: FakeUsageSubItem, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(84.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = subItem.icon, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(text = subItem.title, style = MaterialTheme.typography.titleLarge)
         }
     }
 }

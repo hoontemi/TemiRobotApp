@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -31,30 +30,24 @@ import kotlinx.coroutines.launch
 private const val NOT_IMPLEMENTED_MESSAGE = "다음 단계에서 구현 예정"
 
 /**
- * 시설 상세 화면. FakeFacilityRepository에서 시설 정보를 조회해 표시한다.
- * 동행 안내는 [com.ibtech.temirobotapp.data.facility.Facility.escortAvailable]이
- * false면 버튼을 비활성화한다. 안내 듣기는 아직 TTS를 연결하지 않아 스낵바로만 안내한다.
+ * 위치만 보기 화면. 시설 상세에서 "위치만 보기"를 선택하면 표시된다.
+ * 뒤로가기·홈 이동은 다른 하위 화면과 동일하게 공통 상단바(CommonTopBar)로 처리하며,
+ * 본문에는 시설 고유 동작인 "안내 듣기"만 버튼으로 둔다.
  */
 @Composable
-fun FacilityDetailScreen(
+fun LocationGuideScreen(
     facilityId: String,
     onBackClick: () -> Unit,
-    onHomeClick: () -> Unit,
-    onEscortClick: (String) -> Unit,
-    onLocationOnlyClick: (String) -> Unit
+    onHomeClick: () -> Unit
 ) {
     val facility = FakeFacilityRepository.getFacilityById(facilityId)
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    fun notifyNotImplemented() {
-        coroutineScope.launch { snackbarHostState.showSnackbar(NOT_IMPLEMENTED_MESSAGE) }
-    }
-
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = facility?.name ?: "시설 상세",
+                title = facility?.name ?: "위치 안내",
                 onBackClick = onBackClick,
                 onHomeClick = onHomeClick
             )
@@ -72,7 +65,6 @@ fun FacilityDetailScreen(
                     modifier = Modifier.widthIn(max = 480.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // 이미지 자리 — 실제 이미지 연동 전 자리표시자.
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -103,13 +95,6 @@ fun FacilityDetailScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = facility?.description ?: "시설 설명이 없습니다.",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Text(
                         text = facility?.locationGuideText ?: "위치 안내 문구가 없습니다.",
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -117,26 +102,11 @@ fun FacilityDetailScreen(
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Button(
-                        onClick = { onEscortClick(facilityId) },
-                        enabled = facility?.escortAvailable == true,
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
-                        Text(text = "동행 안내", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { onLocationOnlyClick(facilityId) },
-                        modifier = Modifier.fillMaxWidth().height(64.dp)
-                    ) {
-                        Text(text = "위치만 보기", style = MaterialTheme.typography.titleLarge)
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    OutlinedButton(
-                        onClick = { notifyNotImplemented() },
+                        onClick = {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar(NOT_IMPLEMENTED_MESSAGE)
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth().height(64.dp)
                     ) {
                         Text(text = "안내 듣기", style = MaterialTheme.typography.titleLarge)

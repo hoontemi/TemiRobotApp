@@ -4,10 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -86,7 +89,14 @@ private fun UsageCategoryCard(category: FakeUsageCategory, onClick: () -> Unit) 
             .fillMaxWidth()
             .height(96.dp)
     ) {
-        Box(modifier = Modifier.padding(20.dp), contentAlignment = Alignment.CenterStart) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = category.icon, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.width(12.dp))
             Text(text = category.title, style = MaterialTheme.typography.titleLarge)
         }
     }

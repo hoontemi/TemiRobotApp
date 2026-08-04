@@ -12,6 +12,8 @@ import com.ibtech.temirobotapp.ui.event.EventDetailScreen
 import com.ibtech.temirobotapp.ui.event.EventListScreen
 import com.ibtech.temirobotapp.ui.facility.FacilityDetailScreen
 import com.ibtech.temirobotapp.ui.facility.FacilityListScreen
+import com.ibtech.temirobotapp.ui.facility.LocationGuideScreen
+import com.ibtech.temirobotapp.ui.facility.NavigationPrepareScreen
 import com.ibtech.temirobotapp.ui.home.HomeScreen
 import com.ibtech.temirobotapp.ui.usage.UsageCategoryScreen
 import com.ibtech.temirobotapp.ui.usage.UsageDetailScreen
@@ -60,6 +62,25 @@ fun AppNavHost() {
         composable(AppRoutes.FACILITY_DETAIL) { backStackEntry ->
             val facilityId = backStackEntry.arguments?.getString(AppRoutes.ARG_FACILITY_ID).orEmpty()
             FacilityDetailScreen(
+                facilityId = facilityId,
+                onBackClick = { navController.popBackStack() },
+                onHomeClick = { goHome() },
+                onEscortClick = { id -> navController.navigate(AppRoutes.navigationPrepare(id)) },
+                onLocationOnlyClick = { id -> navController.navigate(AppRoutes.locationGuide(id)) }
+            )
+        }
+        composable(AppRoutes.NAVIGATION_PREPARE) { backStackEntry ->
+            val facilityId = backStackEntry.arguments?.getString(AppRoutes.ARG_FACILITY_ID).orEmpty()
+            NavigationPrepareScreen(
+                facilityId = facilityId,
+                onCancelClick = { navController.popBackStack() },
+                onBackClick = { navController.popBackStack() },
+                onHomeClick = { goHome() }
+            )
+        }
+        composable(AppRoutes.LOCATION_GUIDE) { backStackEntry ->
+            val facilityId = backStackEntry.arguments?.getString(AppRoutes.ARG_FACILITY_ID).orEmpty()
+            LocationGuideScreen(
                 facilityId = facilityId,
                 onBackClick = { navController.popBackStack() },
                 onHomeClick = { goHome() }
