@@ -137,6 +137,14 @@ object FakeFacilityRepository {
     fun getFacilities(): List<Facility> =
         facilities.filter { it.isActive }.sortedBy { it.displayOrder }
 
+    /**
+     * 시설 안내 첫 화면에 큰 버튼으로 노출할 주요 장소를 반환한다.
+     * 표시 순서가 빠른 [count]개를 주요 장소로 본다. 나머지는 "다른 장소 찾기"에서 전체 목록으로 보여준다.
+     * (이후 관리자 화면에서 주요 장소를 직접 지정할 수 있게 되면 그 설정을 따르도록 바꾼다.)
+     */
+    fun getPrimaryFacilities(count: Int = PRIMARY_FACILITY_COUNT): List<Facility> =
+        getFacilities().take(count)
+
     /** ID로 시설을 조회한다. 없으면 null. */
     fun getFacilityById(id: String): Facility? =
         facilities.find { it.id == id }
@@ -144,4 +152,7 @@ object FakeFacilityRepository {
     /** 활성화된 시설의 카테고리 목록을 중복 없이 반환한다. */
     fun getCategories(): List<String> =
         getFacilities().map { it.category }.distinct()
+
+    /** 첫 화면에 큰 버튼으로 보여줄 주요 장소 개수(2x2 그리드). */
+    private const val PRIMARY_FACILITY_COUNT = 4
 }

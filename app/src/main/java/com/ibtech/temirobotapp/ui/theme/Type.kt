@@ -13,18 +13,18 @@ import androidx.compose.ui.unit.sp
 val TemiTypography = Typography(
     headlineLarge = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 40.sp
+        fontSize = 48.sp
     ),
     titleLarge = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 28.sp
+        fontSize = 34.sp
     ),
     bodyLarge = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp
+        fontSize = 26.sp
     ),
     labelLarge = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 22.sp
+        fontSize = 26.sp
     )
 )

@@ -6,8 +6,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import com.ibtech.temirobotapp.navigation.AppNavHost
+import com.ibtech.temirobotapp.ui.TEMI_NAVIGATION_BAR_HEIGHT
 import com.ibtech.temirobotapp.ui.theme.TemiRobotAppTheme
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener
@@ -27,13 +31,23 @@ class MainActivity : ComponentActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
+        // enableEdgeToEdge()를 쓰면 콘텐츠가 하단 내비게이션 바(◁ ○ □) 뒤까지 그려져
+        // 화면 맨 아래 버튼이 가려진다. 키오스크 앱이라 화면 끝까지 그릴 이유가 없으므로
+        // 시스템 창 영역을 침범하지 않게 둔다.
 
         robot = Robot.getInstance()
 
         setContent {
             TemiRobotAppTheme {
-                AppNavHost()
+                // 하단 내비게이션 바가 오버레이로 그려지고 인셋도 보고되지 않아,
+                // 모든 화면이 공통으로 그만큼 아래 여백을 확보하도록 여기서 한 번에 적용한다.
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = TEMI_NAVIGATION_BAR_HEIGHT)
+                ) {
+                    AppNavHost()
+                }
             }
         }
     }

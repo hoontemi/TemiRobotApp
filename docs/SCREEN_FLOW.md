@@ -228,10 +228,8 @@ Temi 도착 안내 TTS 실행 (TTS 공통 규칙: "8.2 TTS 중지 및 중복 실
 메인 화면 → "이용방법이 궁금해요" 선택
   ↓
 이용방법 카테고리 화면 [공통 상단바: ← | 이용방법 안내 | 홈]
-  └─ 관리자가 등록한 카테고리 목록
-       (예: 책 대출·반납, 회원가입, 회원증, 열람실 이용,
-            운영시간, 휴관일, 대출 가능 권수, 대출 기간,
-            연장 및 예약, 무인반납 방법 — 관리자 설정값)
+  └─ 카테고리 목록 (4개 고정, 문구·순서·노출 여부는 관리자 설정값)
+       책 대출·반납 / 회원가입 / 열람실 이용 / 운영시간
   ↓
 카테고리 선택
   ↓
@@ -725,9 +723,9 @@ TTS 실행 중 화면 전환 발생 (뒤로가기 / 홈 버튼 / 다른 메뉴�
 | 이동 중 | `navigation/moving/{destinationId}` |
 | 이동 완료 | `navigation/arrived/{destinationId}` |
 | 이동 실패/취소 | `navigation/failed/{destinationId}` |
-| 이용방법 카테고리 | `guide/categories` |
-| 이용방법 세부 항목 | `guide/topics/{categoryId}` |
-| 이용방법 답변 | `guide/answer/{topicId}` |
+| 이용방법 카테고리 | `usage/category` |
+| 이용방법 세부 항목 | `usage/items/{categoryId}` |
+| 이용방법 답변 | `usage/guide/{guideId}` |
 | 어린이 콘텐츠 메뉴 | `kids/menu` |
 | 퀴즈 분야 선택 | `kids/quiz/fields` |
 | 퀴즈 문제 | `kids/quiz/question/{quizId}` |

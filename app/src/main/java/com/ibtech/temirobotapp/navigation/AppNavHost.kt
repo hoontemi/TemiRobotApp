@@ -10,13 +10,15 @@ import com.ibtech.temirobotapp.ui.admin.AdminScreen
 import com.ibtech.temirobotapp.ui.children.ChildrenMenuScreen
 import com.ibtech.temirobotapp.ui.event.EventDetailScreen
 import com.ibtech.temirobotapp.ui.event.EventListScreen
+import com.ibtech.temirobotapp.ui.facility.FacilityAllListScreen
 import com.ibtech.temirobotapp.ui.facility.FacilityDetailScreen
 import com.ibtech.temirobotapp.ui.facility.FacilityListScreen
 import com.ibtech.temirobotapp.ui.facility.LocationGuideScreen
 import com.ibtech.temirobotapp.ui.facility.NavigationPrepareScreen
 import com.ibtech.temirobotapp.ui.home.HomeScreen
 import com.ibtech.temirobotapp.ui.usage.UsageCategoryScreen
-import com.ibtech.temirobotapp.ui.usage.UsageDetailScreen
+import com.ibtech.temirobotapp.ui.usage.UsageGuideDetailScreen
+import com.ibtech.temirobotapp.ui.usage.UsageItemListScreen
 
 @Composable
 fun AppNavHost() {
@@ -55,6 +57,14 @@ fun AppNavHost() {
         composable(AppRoutes.FACILITY_LIST) {
             FacilityListScreen(
                 onFacilityClick = { id -> navController.navigate(AppRoutes.facilityDetail(id)) },
+                onFindOtherClick = { navController.navigate(AppRoutes.FACILITY_ALL_LIST) },
+                onBackClick = { navController.popBackStack() },
+                onHomeClick = { goHome() }
+            )
+        }
+        composable(AppRoutes.FACILITY_ALL_LIST) {
+            FacilityAllListScreen(
+                onFacilityClick = { id -> navController.navigate(AppRoutes.facilityDetail(id)) },
                 onBackClick = { navController.popBackStack() },
                 onHomeClick = { goHome() }
             )
@@ -89,15 +99,27 @@ fun AppNavHost() {
 
         composable(AppRoutes.USAGE_CATEGORY) {
             UsageCategoryScreen(
-                onCategoryClick = { id -> navController.navigate(AppRoutes.usageDetail(id)) },
+                onCategoryClick = { id -> navController.navigate(AppRoutes.usageItemList(id)) },
                 onBackClick = { navController.popBackStack() },
                 onHomeClick = { goHome() }
             )
         }
-        composable(AppRoutes.USAGE_DETAIL) { backStackEntry ->
+        composable(AppRoutes.USAGE_ITEM_LIST) { backStackEntry ->
             val categoryId = backStackEntry.arguments?.getString(AppRoutes.ARG_CATEGORY_ID).orEmpty()
-            UsageDetailScreen(
+            UsageItemListScreen(
                 categoryId = categoryId,
+                onGuideClick = { id -> navController.navigate(AppRoutes.usageGuideDetail(id)) },
+                onBackClick = { navController.popBackStack() },
+                onHomeClick = { goHome() }
+            )
+        }
+        composable(AppRoutes.USAGE_GUIDE_DETAIL) { backStackEntry ->
+            val guideId = backStackEntry.arguments?.getString(AppRoutes.ARG_GUIDE_ID).orEmpty()
+            UsageGuideDetailScreen(
+                guideId = guideId,
+                onRelatedFacilityClick = { id ->
+                    navController.navigate(AppRoutes.facilityDetail(id))
+                },
                 onBackClick = { navController.popBackStack() },
                 onHomeClick = { goHome() }
             )

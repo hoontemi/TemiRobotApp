@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ibtech.temirobotapp.ui.TEMI_STATUS_BAR_HEIGHT
 
 /**
  * 홈 화면을 제외한 모든 하위 화면에서 사용하는 공통 상단바.
@@ -25,14 +26,14 @@ fun CommonTopBar(
     onBackClick: () -> Unit,
     onHomeClick: () -> Unit
 ) {
-    // Temi 기기의 자체 상태바가 표준 WindowInsets로 보고되지 않아
-    // statusBarsPadding()이 동작하지 않는다. 실측값(밀도 180 기준 약 56dp) 기반
-    // 고정 여백으로 Temi 상태바와 겹치지 않게 처리한다.
+    // Temi 기기의 자체 상태바가 표준 WindowInsets로 보고되지 않아 statusBarsPadding()이
+    // 동작하지 않는다. 실측 고정값(ui/TemiSystemBars.kt)으로 겹치지 않게 처리한다.
+    // 하단 내비게이션 바 여백은 MainActivity에서 앱 전체에 적용하므로 여기서 다루지 않는다.
     Surface(shadowElevation = 2.dp) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 56.dp)
+                .padding(top = TEMI_STATUS_BAR_HEIGHT)
                 .height(128.dp)
                 .padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically

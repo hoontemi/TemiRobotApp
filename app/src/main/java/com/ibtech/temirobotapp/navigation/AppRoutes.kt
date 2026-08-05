@@ -11,6 +11,7 @@ object AppRoutes {
 
     const val ARG_FACILITY_ID = "facilityId"
     const val FACILITY_LIST = "facility/list"
+    const val FACILITY_ALL_LIST = "facility/all"
     const val FACILITY_DETAIL = "facility/detail/{$ARG_FACILITY_ID}"
     fun facilityDetail(facilityId: String) = "facility/detail/$facilityId"
 
@@ -21,9 +22,13 @@ object AppRoutes {
     fun locationGuide(facilityId: String) = "facility/locationGuide/$facilityId"
 
     const val ARG_CATEGORY_ID = "categoryId"
+    const val ARG_GUIDE_ID = "guideId"
     const val USAGE_CATEGORY = "usage/category"
-    const val USAGE_DETAIL = "usage/detail/{$ARG_CATEGORY_ID}"
-    fun usageDetail(categoryId: String) = "usage/detail/$categoryId"
+    const val USAGE_ITEM_LIST = "usage/items/{$ARG_CATEGORY_ID}"
+    fun usageItemList(categoryId: String) = "usage/items/$categoryId"
+
+    const val USAGE_GUIDE_DETAIL = "usage/guide/{$ARG_GUIDE_ID}"
+    fun usageGuideDetail(guideId: String) = "usage/guide/$guideId"
 
     const val CHILDREN_MENU = "children/menu"
 
