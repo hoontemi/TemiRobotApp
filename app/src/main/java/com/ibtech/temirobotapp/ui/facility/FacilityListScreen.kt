@@ -1,6 +1,5 @@
 package com.ibtech.temirobotapp.ui.facility
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -112,11 +111,11 @@ private fun PrimaryFacilityCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // 홈·이용방법 화면의 메뉴 카드와 같은 민트 컨테이너 색을 쓴다.
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(28.dp),
-        color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+        color = MaterialTheme.colorScheme.primaryContainer,
         modifier = modifier
     ) {
         Column(
